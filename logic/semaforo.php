@@ -1,5 +1,8 @@
 
     <?php
+     if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
     // Recibir las respuestas enviadas desde el formulario
     $respuestas = $_POST['respuestas']; // Aquí asumimos que el formulario envía las respuestas como un array con el nombre 'respuestas'
     $submitId = $_POST['submit_id'];
@@ -24,6 +27,9 @@
     // Calcular el porcentaje de respuestas "si" (sin contar las respuestas "n/a")
     if($siCount == 0 && $noCount == 0){
         $porcentajeSi = 0;
+        $color1 = "black";  
+        $color2 = "black";
+        $color3 = "black";
     }else{
         $porcentajeSi = ($siCount / ($totalRespuestas - $naCount)) * 100;
 
@@ -62,6 +68,13 @@
             circulo1.style.backgroundColor = color1;
             circulo2.style.backgroundColor = color2;
             circulo3.style.backgroundColor = color3;
+
+            <?php
+                //Guardar en Sesion los colores de los circulos en un array
+                if (isset($_POST['submit_planificacion'])) {
+                    $_SESSION['semaforoPlanificacion'] = array($color1, $color2, $color3);
+                }
+            ?>
         }
 
         if (submitId === "submit_riesgos") {
@@ -73,6 +86,13 @@
             circulo1.style.backgroundColor = color1;
             circulo2.style.backgroundColor = color2;
             circulo3.style.backgroundColor = color3;
+
+            <?php
+                //Guardar en Sesion los colores de los circulos en un array
+                if (isset($_POST['submit_riesgos'])) {
+                    $_SESSION['semaforoRiesgos'] = array($color1, $color2, $color3);
+                }
+            ?>
         }
 
         if (submitId === "submit_calidad") {
@@ -84,5 +104,13 @@
             circulo1.style.backgroundColor = color1;
             circulo2.style.backgroundColor = color2;
             circulo3.style.backgroundColor = color3;
+
+            <?php
+                //Guardar en Sesion los colores de los circulos en un array
+                if (isset($_POST['submit_calidad'])) {
+                    $_SESSION['semaforoCalidad'] = array($color1, $color2, $color3);
+                }
+            ?>
         }
+
     </script>

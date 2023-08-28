@@ -1,5 +1,7 @@
 <?php
-    session_start();
+     if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -63,6 +65,27 @@
                 <div name="circle-1" id="circle-1" style="width: 95px; height: 95px; border-radius: 50%; background-color: black; position: relative; margin: auto; margin-top: 6px; border: 2px solid black;"></div>
                 <div name="circle-2" id="circle-2" style="width: 95px; height: 95px; border-radius: 50%; background-color: black; position: relative; margin: auto; margin-top: 10px; border: 2px solid black;"></div>
                 <div name="circle-3" id="circle-3" style="width: 95px; height: 95px; border-radius: 50%; background-color: black; position: relative; margin: auto; margin-top: 10px; border: 2px solid black;"></div>
+
+                <?php
+                    if (isset($_SESSION['semaforoPlanificacion'])) {
+                        $arrayPlanificacion = $_SESSION['semaforoPlanificacion'];
+                        $color1 = $arrayPlanificacion[0];
+                        $color2 = $arrayPlanificacion[1];
+                        $color3 = $arrayPlanificacion[2];
+                        echo "
+                            <script>
+                                var circulo1 = document.querySelector('#php-container-planificacion #circle-1');
+                                var circulo2 = document.querySelector('#php-container-planificacion #circle-2');
+                                var circulo3 = document.querySelector('#php-container-planificacion #circle-3');
+
+                                circulo1.style.backgroundColor = '$color1';
+                                circulo2.style.backgroundColor = '$color2';
+                                circulo3.style.backgroundColor = '$color3';
+                            </script>
+                        ";
+                    }
+                ?>
+
             </div>
         </div>
 
@@ -110,6 +133,28 @@
                 <div name="circle-1" id="circle-1" style="width: 95px; height: 95px; border-radius: 50%; background-color: black; position: relative; margin: auto; margin-top: 6px; border: 2px solid black;"></div>
                 <div name="circle-2" id="circle-2" style="width: 95px; height: 95px; border-radius: 50%; background-color: black; position: relative; margin: auto; margin-top: 10px; border: 2px solid black;"></div>
                 <div name="circle-3" id="circle-3" style="width: 95px; height: 95px; border-radius: 50%; background-color: black; position: relative; margin: auto; margin-top: 10px; border: 2px solid black;"></div>
+                
+                <?php
+                    if (isset($_SESSION['semaforoRiesgos'])) {
+                        $arrayRiesgos = $_SESSION['semaforoRiesgos'];
+                        $color1 = $arrayRiesgos[0];
+                        $color2 = $arrayRiesgos[1];
+                        $color3 = $arrayRiesgos[2];
+                        echo "
+                            <script>
+                                var circulo1 = document.querySelector('#php-container-riesgos #circle-1');
+                                var circulo2 = document.querySelector('#php-container-riesgos #circle-2');
+                                var circulo3 = document.querySelector('#php-container-riesgos #circle-3');
+
+                                circulo1.style.backgroundColor = '$color1';
+                                circulo2.style.backgroundColor = '$color2';
+                                circulo3.style.backgroundColor = '$color3';
+                            </script>
+                        ";
+                    }
+
+                ?>
+            
             </div>
         </div>
 
@@ -155,10 +200,39 @@
                 <div name="circle-1" id="circle-1" style="width: 95px; height: 95px; border-radius: 50%; background-color: black; position: relative; margin: auto; margin-top: 6px; border: 2px solid black;"></div>
                 <div name="circle-2" id="circle-2" style="width: 95px; height: 95px; border-radius: 50%; background-color: black; position: relative; margin: auto; margin-top: 10px; border: 2px solid black;"></div>
                 <div name="circle-3" id="circle-3" style="width: 95px; height: 95px; border-radius: 50%; background-color: black; position: relative; margin: auto; margin-top: 10px; border: 2px solid black;"></div>
+            
+                <?php
+                    if (isset($_SESSION['semaforoCalidad'])) {
+                        $arrayCalidad = $_SESSION['semaforoCalidad'];
+                        $color1 = $arrayCalidad[0];
+                        $color2 = $arrayCalidad[1];
+                        $color3 = $arrayCalidad[2];
+                        echo "
+                            <script>
+                                var circulo1 = document.querySelector('#php-container-calidad #circle-1');
+                                var circulo2 = document.querySelector('#php-container-calidad #circle-2');
+                                var circulo3 = document.querySelector('#php-container-calidad #circle-3');
+
+                                circulo1.style.backgroundColor = '$color1';
+                                circulo2.style.backgroundColor = '$color2';
+                                circulo3.style.backgroundColor = '$color3';
+                            </script>
+                        ";
+                    }
+
+                ?>
+            
             </div>
         </div>
 
     </div>
+
+    <form class="form-container" action="" method="POST">
+        <input type="hidden" name="submit_id" value="clear_semaforos">
+        <input type="submit" name="clear_semaforos" value="Limpiar">
+    </form>
+
+
 
     <?php
         if (isset($_POST['submit_planificacion']) || isset($_POST['submit_riesgos'])
@@ -166,6 +240,38 @@
             $respuestas = $_POST['respuestas'];
             $submitId = $_POST['submit_id'];
             include 'logic/semaforo.php';
+        }
+
+        if (isset($_POST['clear_semaforos'])) {
+            echo "<script>
+                var circulo1_planificacion = document.querySelector('#php-container-planificacion #circle-1');
+                var circulo2_planificacion = document.querySelector('#php-container-planificacion #circle-2');
+                var circulo3_planificacion = document.querySelector('#php-container-planificacion #circle-3');
+
+                circulo1_planificacion.style.backgroundColor = 'black';
+                circulo2_planificacion.style.backgroundColor = 'black';
+                circulo3_planificacion.style.backgroundColor = 'black';
+
+                var circulo1_riesgos = document.querySelector('#php-container-riesgos #circle-1');
+                var circulo2_riesgos = document.querySelector('#php-container-riesgos #circle-2');
+                var circulo3_riesgos = document.querySelector('#php-container-riesgos #circle-3');
+
+                circulo1_riesgos.style.backgroundColor = 'black';
+                circulo2_riesgos.style.backgroundColor = 'black';
+                circulo3_riesgos.style.backgroundColor = 'black';
+
+                var circulo1_calidad = document.querySelector('#php-container-calidad #circle-1');
+                var circulo2_calidad = document.querySelector('#php-container-calidad #circle-2');
+                var circulo3_calidad = document.querySelector('#php-container-calidad #circle-3');
+
+                circulo1_calidad.style.backgroundColor = 'black';
+                circulo2_calidad.style.backgroundColor = 'black';
+                circulo3_calidad.style.backgroundColor = 'black';
+            </script>";
+
+            //unset($_SESSION['semaforoPlanificacion']);
+            //unset($_SESSION['semaforoRiesgos']);
+            //unset($_SESSION['semaforoCalidad']);
         }
     ?>
 
